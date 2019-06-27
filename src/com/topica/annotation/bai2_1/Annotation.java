@@ -1,6 +1,5 @@
 package com.topica.annotation.bai2_1;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -24,46 +23,44 @@ import java.lang.reflect.Modifier;
 	double updateValueDouble() default 0;
 }
 
-public class Annotation1 {
+public class Annotation {
+	public static final String MODIFIER = "modifiers";
 
 	public static void setValueStaticFinal(Object obj) throws Exception {
 		Class<?> myClass = obj.getClass();
-		Field[] field = myClass.getDeclaredFields();
-		for (Field fid : field) {
-			setValueStaticFinal check = fid.getAnnotation(setValueStaticFinal.class);
-
+		Field[] fields = myClass.getDeclaredFields();
+		for (Field field : fields) {
+			setValueStaticFinal check = field.getAnnotation(setValueStaticFinal.class);
 			if (check != null) {
-				fid.setAccessible(true);
-				int modifier = fid.getModifiers();
+				field.setAccessible(true);
+				int modifier = field.getModifiers();
 				if (Modifier.isStatic(modifier) && Modifier.isFinal(modifier)) {
-
-					Annotation an = fid.getAnnotation(setValueStaticFinal.class);
-					setValueStaticFinal ann = (setValueStaticFinal) an;
-					process(ann, fid);
+					setValueStaticFinal anno = (setValueStaticFinal) check;
+					process(anno, field);
 				}
 			}
 		}
 
 	}
 
-	public static void process(setValueStaticFinal ann, Field field)
+	private static void process(setValueStaticFinal anno, Field field)
 			throws NoSuchFieldException, IllegalAccessException, Exception {
-		if (!ann.updateValueString().equals("")) {
-			setFinalStatic(field, ann.updateValueString());
-		} else if (ann.updateValueInteger() != 0) {
-			setFinalStatic(field, ann.updateValueInteger());
-		} else if (ann.updateValueFloat() != 0) {
-			setFinalStatic(field, ann.updateValueFloat());
-		} else if (ann.updateValueDouble() != 0) {
-			setFinalStatic(field, ann.updateValueDouble());
+		if (!anno.updateValueString().equals("")) {
+			setFinalStatic(field, anno.updateValueString());
+		} else if (anno.updateValueInteger() != 0) {
+			setFinalStatic(field, anno.updateValueInteger());
+		} else if (anno.updateValueFloat() != 0) {
+			setFinalStatic(field, anno.updateValueFloat());
+		} else if (anno.updateValueDouble() != 0) {
+			setFinalStatic(field, anno.updateValueDouble());
 		}
 	}
 
-	static void setFinalStatic(Field field, Object newValue)
+	private static void setFinalStatic(Field field, Object newValue)
 			throws Exception, NoSuchFieldException, IllegalAccessException {
 		field.setAccessible(true);
 
-		Field modifiersField = Field.class.getDeclaredField("modifiers");
+		Field modifiersField = Field.class.getDeclaredField(MODIFIER);
 		modifiersField.setAccessible(true);
 		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 

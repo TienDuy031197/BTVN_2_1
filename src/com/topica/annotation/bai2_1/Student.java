@@ -3,11 +3,8 @@ package com.topica.annotation.bai2_1;
 import java.lang.reflect.Field;
 
 public class Student {
-
 	private String name;
-
 	private int age;
-
 	private String address;
 
 	@setValueStaticFinal(updateValueString = "Data update")
@@ -16,13 +13,13 @@ public class Student {
 	@setValueStaticFinal(updateValueInteger = 4)
 	public static final int ages = 2;
 
-	@setValueStaticFinal(updateValueString = "new day data update")
+//	@setValueStaticFinal(updateValueString = "new day data update")
 	public static final String newData = "new day";
 
-	public static String getDataReflectionSt(String d) {
+	public static String getDataReflectionSt(String variableString) {
 		try {
-			final Field fld = Student.class.getDeclaredField(d);
-			return (String) fld.get(null);
+			final Field field = Student.class.getDeclaredField(variableString);
+			return (String) field.get(null);
 		} catch (NoSuchFieldException e) {
 			return null;
 		} catch (IllegalAccessException e) {
@@ -30,10 +27,10 @@ public class Student {
 		}
 	}
 
-	public static Integer getDataReflectionIn(String d) {
+	public static Integer getDataReflectionIn(String variableInteger) {
 		try {
-			final Field fld = Student.class.getDeclaredField(d);
-			return (Integer) fld.get(null);
+			final Field field = Student.class.getDeclaredField(variableInteger);
+			return (Integer) field.get(null);
 		} catch (NoSuchFieldException e) {
 			return null;
 		} catch (IllegalAccessException e) {
