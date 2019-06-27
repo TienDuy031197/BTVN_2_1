@@ -6,7 +6,9 @@ public class Main {
 		// TODO Auto-generated method stub
 		Student student = new Student("Duy", 22, "Soc Son");
 		Annotation1.setValueStaticFinal(student);
+		System.out.println("Value befor change of variable data: " + Student.data);
 		System.out.println("Value after change of variable data: " + Student.getDataReflectionSt("data"));
+		System.out.println("Value befor change of variable ages: " + Student.ages);
 		System.out.println("Value after change of variable ages: " + Student.getDataReflectionIn("ages"));
 
 	}
